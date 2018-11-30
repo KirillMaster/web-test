@@ -31,6 +31,7 @@ $(document).ready(function(){
             self.filter = {
                 name: ko.observable(''),
                 discipline: ko.observable(),
+                isActive: ko.observable(false),
                 set: function(){
                     var cookie = $.cookie();
                     if (!cookie.testsDisciplineId){
@@ -199,8 +200,9 @@ $(document).ready(function(){
                     var pageSize = '&pageSize=' + self.pagination.pageSize();
                     var name = self.filter.name() ?'&name=' + self.filter.name() : '';
                     var filterDiscipline = '&discipline=' + self.filter.discipline().id();
+                    var isActive = '&isActive=' + self.filter.isActive();
 
-                    var url = '/api/tests/show' + page + pageSize + name + filterDiscipline;
+                    var url = '/api/tests/show' + page + pageSize + name + filterDiscipline + isActive;
                     $ajaxget({
                         url: url,
                         errors: self.errors,

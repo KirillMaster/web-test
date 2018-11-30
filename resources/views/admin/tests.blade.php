@@ -41,8 +41,14 @@
                        optionsCaption: 'Выберите дисциплину'"></select>
         </div>
         <div class="filter-block">
-            <label class="title">Тест</label>
+            <label class="la">Тест</label>
             <input type="text" data-bind="value: $root.filter.name, valueUpdate: 'keyup'" placeholder="Название теста">
+        </div>
+        <div class="filter-block">
+            <span class="radio">Только активные: </span>
+            <span class="radio form-heights" data-bind="css: {'radio-important': $root.filter.isActive()}, click: () => $root.filter.isActive(true)">Да</span>
+            <span>|</span>
+            <span class="radio form-heights" data-bind="css: {'radio-important': !$root.filter.isActive()}, click: () => $root.filter.isActive(false)">Нет</span>
         </div>
         <div class="filter-block">
             <span class="clear" data-bind="click: $root.filter.clear">Очистить</span>
