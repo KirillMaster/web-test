@@ -62,7 +62,7 @@ class TestRepository extends BaseRepository
 
         if (filter_var($isActive, FILTER_VALIDATE_BOOLEAN) === true) {
             $query = $query->andWhere('t.isActive = :isActive')
-                ->setParameter('isActive', $isActive);
+                ->setParameter('isActive', 1);
         }
 
         $countQuery = clone $query;
