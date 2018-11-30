@@ -216,6 +216,7 @@ $(document).ready(function(){
                         url: '/api/disciplines/' + self.filter.discipline().id() + '/themes',
                         errors: self.errors,
                         successCallback: function(data){
+                            data().forEach(i => i.name(`${i.name()} (вопросы: ${i.questionsCount()}, время: ${formatTimeToMinute(i.totalTimeInSeconds())})`));
                             self.multiselect.data(data());
                         }
                     });

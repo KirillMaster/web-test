@@ -318,3 +318,6 @@ var handleArray = function (array, handler) {
     }
 };
 
+formatTimeToMinute = time =>
+    `${formatTime(Math.floor(time / 60))}:${formatTime(time % 60)}`
+
