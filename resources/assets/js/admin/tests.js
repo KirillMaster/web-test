@@ -282,6 +282,12 @@ $(document).ready(function(){
                 self.pagination.currentPage(1);
                 self.get.tests();
             });
+            self.filter.isActive.subscribe(() => {
+                if (self.filter.discipline()) {
+                    self.pagination.currentPage(1);
+                    self.get.tests();
+                }
+            });
 
             return returnStandart.call(self);
         };
