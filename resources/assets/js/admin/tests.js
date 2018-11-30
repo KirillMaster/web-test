@@ -23,7 +23,9 @@ $(document).ready(function(){
                     type: ko.observable(true),
                     isActive: ko.observable(true),
                     isRandom: ko.observable(true),
-                    themes: ko.observableArray([])
+                    themes: ko.observableArray([]),
+                    totalTimeInSeconds: ko.observable(''),
+                    questionsCount: ko.observable(0)
                 }),
                 tests: ko.observableArray([]),
                 disciplines: ko.observableArray([])
@@ -288,6 +290,14 @@ $(document).ready(function(){
                     self.get.tests();
                 }
             });
+
+            self.current.test().themes.subscribe(newThemes => 
+                self.current.test({
+                    ...self.current.test(),
+                    totalTimeInSeconds: formatTimeToMinute(newThemes.reduce((a, v) => a + v.totalTimeInSeconds(), 0)),
+                    questionsCount: newThemes.reduce((a, v) => a + v.questionsCount(), 0)
+                })
+            );
 
             return returnStandart.call(self);
         };

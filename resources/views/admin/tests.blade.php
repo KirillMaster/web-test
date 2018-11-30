@@ -41,7 +41,7 @@
                        optionsCaption: 'Выберите дисциплину'"></select>
         </div>
         <div class="filter-block">
-            <label class="la">Тест</label>
+            <label class="title">Тест</label>
             <input type="text" data-bind="value: $root.filter.name, valueUpdate: 'keyup'" placeholder="Название теста">
         </div>
         <div class="filter-block">
@@ -80,6 +80,14 @@
             <div class="details-column">
                 <label class="title">Время</label>
                 <span class="info" data-bind="text: minutes() + ':' + seconds()"></span>
+            </div>
+            <div class="details-column">
+                <label class="title">Общее время</label>
+                <span class="info" data-bind="text: totalTimeInSeconds"></span>
+            </div>
+            <div class="details-column">
+                <label class="title">Общее количество вопросов</label>
+                <span class="info" data-bind="text: questionsCount"></span>
             </div>
         </div>
         <div class="details-row float-buttons">
