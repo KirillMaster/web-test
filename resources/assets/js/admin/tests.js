@@ -291,7 +291,7 @@ $(document).ready(function(){
                 }
             });
 
-            self.current.test().themes.subscribe(newThemes => 
+            self.current.test().themes.subscribe(newThemes =>
                 self.current.test({
                     ...self.current.test(),
                     totalTimeInSeconds: formatTimeToMinute(newThemes.reduce((a, v) => a + v.totalTimeInSeconds(), 0)),
