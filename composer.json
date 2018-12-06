@@ -51,17 +51,18 @@
     "autoload-dev": {
         "classmap": [
             "tests/TestCase.php",
-	    "app/Repositories",
+	        "app/Repositories",
             "app/Managers",
+            "app/Services",
             "app/Converter",
             "app/Helpers",
             "app/Entities",
             "app/ViewModels",
             "app/TestEngine",
             "app/Http/Controllers/Core",
-	    "app/Http/Middleware",
-	    "app/Common",
- 	    "app/Contracts"
+            "app/Http/Middleware",
+            "app/Common",
+            "app/Contracts"
         ],
         "psr-4": {
             "App\\": "app/"
