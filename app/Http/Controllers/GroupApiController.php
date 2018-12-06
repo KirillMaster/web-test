@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Exception;
-use App\Managers\GroupService;
+use Services\GroupService;
 
 class GroupApiController extends ApiController
 {

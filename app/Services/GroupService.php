@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Managers;
+namespace Services;
 
 use Repositories\UnitOfWork;
 
