@@ -17,7 +17,7 @@ class StudentApiController extends ApiController
 
     public function transferAllToNextCourse() {
         try {
-            $this->_studentService->transferToNextCourse(Input::get("studentIds"));
+            $this->_studentService->transferAllToNextCourse(Input::get("studentIds"));
             return $this->ok();
         } catch (Exception $exception) {
             return $this->error($exception->getMessage());
