@@ -16,10 +16,9 @@ class GroupRepository extends BaseRepository
     }
 
     public function getByYear($year) {
-        return $this->repo->createQueryBuilder("g")
-            ->where("g.year = $year")
-            ->getQuery()
-            ->execute();
+        return $this->repo->findBy([
+            "year" => $year
+        ]);
     }
 
     public function getGroupsByProfile($profileId){
