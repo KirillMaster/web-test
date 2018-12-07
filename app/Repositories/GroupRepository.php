@@ -41,7 +41,7 @@ class GroupRepository extends BaseRepository
     }
 
     public function findBy($year, $course, $prefix, $number) {
-        return $this->repo->findBy([
+        return $this->repo->findOneBy([
             "year" => $year,
             "course" => $course,
             "prefix" => $prefix,
