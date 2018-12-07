@@ -143,7 +143,7 @@
                     <label class="title">Группа&nbsp;<span class="required">*</span></label>
                     <select id="sStudentGroupSelection" validate
                             data-bind="options: $root.initial.groups,
-                            optionsText: 'name',
+                            optionsText: i => i.year() ? i.year() + ' ' + i.name() : i.name() ,
                             value: group,
                             optionsCaption: 'Выберите группу',
                             validationElement: group,
