@@ -121,6 +121,14 @@
                            event: {focusout: $root.events.focusout, focusin: $root.events.focusin}"/>
                 </div>
             </div>
+            <div class="details-row">
+                <div class="details-column width-50p">
+                    <label class="title">Год поступления&nbsp;<span class="required">*</span></label>
+                    <select data-bind="
+                        options: $root.current.availableYears,
+                        value: $root.current.group.year"></select>
+                </div>
+            </div>
         </div>
         <div class="details-column width-50p">
             <div class="details-row">

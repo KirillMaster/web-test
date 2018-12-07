@@ -41,7 +41,8 @@ $(document).ready(function(){
                         min: 1,
                         required: true,
                         number: true
-                    })
+                    }),
+                    year: ko.observable((new Date()).getFullYear())
                 }),
 
                 institutes: ko.observableArray([]),
@@ -55,8 +56,11 @@ $(document).ready(function(){
 
                 groupPlan: ko.validatedObservable(null).extend({required: true}),
                 isGenerated: ko.observable(false),
-                hasInactive: ko.observable(false)
+                hasInactive: ko.observable(false),
+
+                availableYears: ko.observableArray([])
             };
+
             self.filter = {
                 name: ko.observable(''),
                 clear: function(){
@@ -192,6 +196,12 @@ $(document).ready(function(){
                         self.current.group().name(),
                         approve: function(){self.post.students();}
                     });
+                },
+                setAvailableYears: count => {
+                    count = count || 4;
+                    let year = (new Date()).getFullYear();
+                    for (let i = 0; i < count; i++)
+                        self.current.availableYears.push(year--)
                 }
             };
             self.get = {
@@ -340,6 +350,7 @@ $(document).ready(function(){
             self.get.institutes();
             self.get.groups();
 
+            self.actions.setAvailableYears();
             return returnStandart.call(self);
         };
     };
