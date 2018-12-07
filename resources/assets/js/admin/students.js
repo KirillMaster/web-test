@@ -13,6 +13,7 @@ $(document).ready(function(){
                 groups: ko.observableArray([])
             };
             self.current = {
+                isSelectAll: ko.observable(false),
                 students: ko.observableArray([]),
                 student: ko.validatedObservable({
                     id: ko.observable(''),
@@ -140,7 +141,8 @@ $(document).ready(function(){
                         });
                         e.stopPropagation();
                     }
-                }
+                },
+                up: () => self.post.up()
             };
 
             self.alter = {
@@ -203,6 +205,7 @@ $(document).ready(function(){
                         url: url,
                         errors: self.errors,
                         successCallback: function(data){
+                            data = handleKnockoutObject(data, d => d.data.forEach(item => item.isSelect = false));
                             self.current.students(data.data());
                             self.pagination.itemsCount(data.count());
                             commonHelper.tooltip({selector: '.item > .fa', side: 'top'});
@@ -220,14 +223,17 @@ $(document).ready(function(){
                         }
                     });
                 },
-                groups: function(){
+                groups: function(id){
                     $ajaxget({
                         url: '/api/groups',
                         errors: self.errors,
                         successCallback: function(data){
                             self.initial.groups(data());
                             var cookie = $.cookie();
-                            if (!$.isEmptyObject(cookie)){
+                            if (id) {
+                                self.filter.set.group(id)
+                            }
+                            else if (!$.isEmptyObject(cookie)){
                                 self.filter.set.group(cookie.groupId);
                                 commonHelper.cookies.remove(cookie);
                                 return;
@@ -284,7 +290,25 @@ $(document).ready(function(){
                             });
                         }
                     });
-                }
+                },
+                up: () => $.post(
+                    'students/transfer/next',
+                    {
+                        studentIds: self.current.students()
+                            .filter(s => s.isSelect())
+                            .map(s => s.id())
+                    })
+                    .done(group => {
+                        self.get.groups(group.id);
+                    })
+                    .fail(({responseJSON}) => self.inform.show({message: responseJSON}))
+            };
+
+            self.buttonVisibility = {
+                upStudents: ko.computed(() =>
+                    self.current.students().filter(s => s.isSelect()).length > 0 &&
+                    self.filter.group() && self.filter.group().course() < 4
+                )
             };
 
             self.filter.group.subscribe(function(){
@@ -312,8 +336,15 @@ $(document).ready(function(){
             self.pagination.currentPage.subscribe(function(){
                 self.get.students();
             });
+            self.current.isSelectAll.subscribe(value =>
+                self.current.students().forEach(s => s.isSelect(value))
+            );
+            self.current.students.subscribe(() => self.current.isSelectAll(false));
 
-            return returnStandart.call(self);
+            let model = returnStandart.call(self);
+            model.buttonVisibility = self.buttonVisibility;
+
+            return model;
         };
     };
 

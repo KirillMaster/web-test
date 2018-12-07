@@ -8,37 +8,49 @@
     <div class="content">
         <div class="items">
             <div class="items-head">
+                <input class="ml-15 grid-checkbox" type="checkbox" data-bind="checked: current.isSelectAll, style: { visibility: current.students().length ? 'visible' : 'hidden' }"/>
                 <h1>Учетные записи студентов</h1>
                 <label class="adder" data-bind="click: $root.actions.start.create">Добавить</label>
             </div>
-            <!-- ko if: $root.mode() === state.create -->
-            <div class="details" data-bind="template: {name: 'update-user-info', data: $root.current.student}"></div>
-            <!-- /ko -->
-            <div class="items-body" data-bind="if: current.students().length">
-                <!-- ko foreach: current.students -->
-                <div class="item student" data-bind="click: $root.actions.show, css: {'current': id() === $root.current.student().id()}">
-                    <!-- ko if: !active() -->
-                    <span class="fa radio-important float-right"
-                          title="Отклонить заявку на регистрацию"
-                          data-bind="click: $root.actions.switch.off">
-                        &#xf00d;
-                    </span>
-                    <span class="fa radio-important float-right"
-                          title="Потвердить заявку на регистрацию"
-                          data-bind="click: $root.actions.switch.on">
-                        &#xf00c;
-                    </span>
+            <table>
+                <thead><tr><td></td><td></td></tr></thead>
+                <tbody>
+                    <!-- ko if: $root.mode() === state.create -->
+                    <tr>
+                        <td class="details" data-bind="template: {name: 'update-user-info', data: $root.current.student}, attr: {colspan: current.students().length ? '2' : '1'}"></td>
+                    </tr>
                     <!-- /ko -->
-                    <span data-bind="text: lastname() + ' ' + firstname() + ' ' + patronymic()"></span>
-                </div>
-                    <!-- ko if: $root.mode() !== state.none && $root.current.student().id() === id()  -->
-                    <div class="details" data-bind="template: {name: 'student-info', data: $root.current.student }"></div>
+                    <!-- ko foreach: current.students -->
+                    <tr>
+                        <td valign="top">
+                            <div class="item"><input class="grid-checkbox" type="checkbox" data-bind="checked: isSelect"/></div>
+                        </td>
+                        <td class="width-100p">
+                            <div class="item grid student" data-bind="click: $root.actions.show, css: {'current': id() === $root.current.student().id()}">
+                                <!-- ko if: !active() -->
+                                <span class="fa radio-important float-right"
+                                      title="Отклонить заявку на регистрацию"
+                                      data-bind="click: $root.actions.switch.off">&#xf00d;</span>
+                                <span class="fa radio-important float-right"
+                                      title="Потвердить заявку на регистрацию"
+                                      data-bind="click: $root.actions.switch.on">&#xf00c;</span>
+                                <!-- /ko -->
+                                <span data-bind="text: lastname() + ' ' + firstname() + ' ' + patronymic()"></span>
+                            </div>
+                            <!-- ko if: $root.mode() !== state.none && $root.current.student().id() === id()  -->
+                            <div class="details" data-bind="template: {name: 'student-info', data: $root.current.student }"></div>
+                            <!-- /ko -->
+                        </td>
+                    </tr>
                     <!-- /ko -->
-                <!-- /ko -->
-            </div>
+                </tbody>
+            </table>
             @include('shared.pagination')
         </div>
         <div class="filter" data-bind="with: $root.filter">
+            <div class="filter-block">
+                <button class="action-button width-100p" data-bind="click: $root.actions.up, enable: $root.filter.group() && $root.buttonVisibility.upStudents()">Перевести на новый курс</button>
+            </div>
             <div class="filter-block">
                 <label class="title">Студент</label>
                 <input type="text" data-bind="value: name, valueUpdate: 'keyup'" placeholder="ФИО студента"/>
@@ -46,7 +58,7 @@
             <div class="filter-block">
                 <label class="title">Группа</label>
                 <select data-bind="options: $root.initial.groups,
-                       optionsText: 'name',
+                       optionsText: i => i.year() ? i.year() + ' ' + i.name() : i.name() ,
                        value: $root.filter.group,
                        optionsCaption: 'Выберите группу'"></select>
             </div>
