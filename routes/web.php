@@ -126,7 +126,7 @@ Route::group(['prefix' => 'api'], function() {
         Route::get('role', 'UserController@getRoleByUser');
         Route::post('setCurrentUserPassword', 'UserController@setCurrentUserPassword');
         Route::get('show', 'UserController@getByNameAndGroupPaginated');
-        Route::get('current', 'UserController@getCurrentUserInfo');
+        Route::get('currgetByThemeAndTextPaginatedent', 'UserController@getCurrentUserInfo');
         Route::post('setPassword', 'UserController@setUserPassword')
             ->middleware('checkRole:'.UserRole::Admin.'|'.UserRole::Lecturer);
         Route::post('delete/{id}', 'UserController@deleteUser')

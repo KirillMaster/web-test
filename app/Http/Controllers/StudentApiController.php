@@ -15,18 +15,10 @@ class StudentApiController extends ApiController
         $this->_studentService = $studentService;
     }
 
-    public function transferAllToNextCourse() {
+    public function transferToNextCourse() {
         try {
-            $this->_studentService->transferAllToNextCourse(Input::get("studentIds"));
-            return $this->ok();
-        } catch (Exception $exception) {
-            return $this->error($exception->getMessage());
-        }
-    }
-
-    public function transferToNextCourse($studentId) {
-        try {
-            $this->_studentService->transferToNextCourse($studentId);
+            $studentIds = (array) Input::get("studentIds");
+            $this->_studentService->transferToNextCourse($studentIds);
             return $this->ok();
         } catch (Exception $exception) {
             return $this->error($exception->getMessage());
