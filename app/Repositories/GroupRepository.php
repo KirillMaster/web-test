@@ -40,6 +40,15 @@ class GroupRepository extends BaseRepository
         $query->execute();
     }
 
+    public function findBy($year, $course, $prefix, $number) {
+        return $this->repo->findBy([
+            "year" => $year,
+            "course" => $course,
+            "prefix" => $prefix,
+            "number" => $number
+        ]);
+    }
+
     public function getByNameAndProfilePaginated($pageSize, $pageNum, $profileId = null, $name = null){
         $qb = $this->repo->createQueryBuilder('g');
         $query = $qb;

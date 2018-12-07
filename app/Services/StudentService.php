@@ -20,7 +20,7 @@ class StudentService
 
     public function transferToNextCourse($studentIds)
     {
-        $groupId = 0;
+        $group = null;
         $newGroup = null;
 
         foreach ($studentIds as $studentId)
@@ -49,17 +49,26 @@ class StudentService
                     "Идентификатор студента: $studentId.");
             }
 
-            $newGroup = ($this->_unitOfWork->groups()->find($groupId) === null)
-                ? $this->createNextGroup($group)
-                : $this->_unitOfWork->groups()->find($groupId);
-
-            $this->_entityManager->persist($newGroup);
-            $this->_entityManager->flush();
-
-            $groupId = $newGroup->getId();
+            // Если группа, в которую будет осуществляется перевод, еще не существует.
+            if ($this->getNextGroup($group) == null) {
+                // Создаем ее.
+                $newGroup = $this->createNextGroup($group);
+                // Сохраняем.
+                $this->_entityManager->persist($newGroup);
+                $this->_entityManager->flush();
+            } else {
+                // Если группа уже есть, то используем ее.
+                $newGroup = $this->getNextGroup($group);
+            }
 
             $studentGroup->setGroup($newGroup);
             $this->_entityManager->flush($studentGroup);
+        }
+
+        // Если в группе больше не осталось студентов, удаляем ее.
+        if (count($this->_unitOfWork->users()->getGroupStudents($group->getId())) === 0) {
+            $this->_entityManager->remove($group);
+            $this->_entityManager->flush();
         }
 
         return $newGroup;
@@ -85,5 +94,14 @@ class StudentService
 
     private function getMode(Group $group) {
         return $group->getIsFulltime() ? "о" : "з";
+    }
+
+    private function getNextGroup(Group $group) {
+        $year = $group->getYear();
+        $number = $group->getNumber();
+        $course = $group->getCourse() + 1;
+        $prefix = $group->getPrefix();
+        return $this->_unitOfWork->groups()
+            ->findBy($year, $course, $prefix, $number);
     }
 }
