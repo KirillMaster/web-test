@@ -20,6 +20,9 @@ class StudentService
 
     public function transferToNextCourse($studentIds)
     {
+        $groupId = 0;
+        $newGroup = null;
+
         foreach ($studentIds as $studentId)
         {
             $student = $this->_unitOfWork->users()
@@ -46,14 +49,20 @@ class StudentService
                     "Идентификатор студента: $studentId.");
             }
 
-            $newGroup = $this->createNextGroup($group);
+            $newGroup = ($this->_unitOfWork->groups()->find($groupId) === null)
+                ? $this->createNextGroup($group)
+                : $this->_unitOfWork->groups()->find($groupId);
 
             $this->_entityManager->persist($newGroup);
             $this->_entityManager->flush();
 
+            $groupId = $newGroup->getId();
+
             $studentGroup->setGroup($newGroup);
             $this->_entityManager->flush($studentGroup);
         }
+
+        return $newGroup;
     }
 
     private function createNextGroup(Group $model) {

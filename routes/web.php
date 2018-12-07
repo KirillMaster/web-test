@@ -126,7 +126,7 @@ Route::group(['prefix' => 'api'], function() {
         Route::get('role', 'UserController@getRoleByUser');
         Route::post('setCurrentUserPassword', 'UserController@setCurrentUserPassword');
         Route::get('show', 'UserController@getByNameAndGroupPaginated');
-        Route::get('currgetByThemeAndTextPaginatedent', 'UserController@getCurrentUserInfo');
+        Route::get('current', 'UserController@getCurrentUserInfo');
         Route::post('setPassword', 'UserController@setUserPassword')
             ->middleware('checkRole:'.UserRole::Admin.'|'.UserRole::Lecturer);
         Route::post('delete/{id}', 'UserController@deleteUser')
@@ -431,6 +431,13 @@ Route::group(['prefix' => 'api'], function() {
         Route::post('createGivenAnswer', 'TestResultController@createGivenAnswer')
             ->middleware('checkIP');
     });
+});
 
-
+Route::group(["prefix" => "admin"], function () {
+    Route::group(["prefix" => "students"], function () {
+        Route::group(["prefix" => "transfer"], function () {
+            Route::post("/next", "StudentApiController@transferToNextCourse")
+                ->middleware('checkRole:'.UserRole::Admin.'|'.UserRole::Lecturer);
+        });
+    });
 });

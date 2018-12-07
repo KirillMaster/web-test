@@ -9,10 +9,3 @@ Route::get('/user', function (Request $request) {
 Route::group(["prefix" => "groups"], function () {
     Route::get("/year/{year}", "GroupApiController@getByYear");
 });
-
-Route::group(["prefix" => "students"], function () {
-    Route::group(["prefix" => "transfer"], function () {
-        Route::post("/all/next", "StudentApiController@transferAllToNextCourse");
-        Route::post("/{studentId}/next", "StudentApiController@transferToNextCourse");
-    });
-});
