@@ -115,22 +115,21 @@ $(document).ready(function () {
                     })
                 },
                 fill: function(d){
-                    console.log(d);
-                    console.log(self.current.discipline());
-                    var viewModel = ko.mapping.fromJS(d);
-                    ko.mapping.fromJS(d, viewModel);
-                   // ko.mapping.fromJS(ko.mapping.toJS(d), {}, self.current.discipline);
-                    // self.current.discipline(d);
+                    // console.log(d);
 
-                    //  self.current.discipline().id(d.id()).semester(d.semester())
-                    //     .hoursCount(d.hoursAll()).hoursLecture(d.hoursLecture())
+                  ko.mapping.fromJS(d, {}, self.current.discipline);
+
+                    // console.log(self.current);
+                    // self.current.discipline().id(d.id()).semester(d.semester())
+                    //     .hoursAll(d.hoursAll()).hoursLecture(d.hoursLecture())
                     //     .hoursLaboratory(d.hoursLaboratory()).hoursPractical(d.hoursPractical())
-                    //     .hoursSolo(d.hoursSolo()).lectureCount(d.lectureCount())
-                    //     .laboratoryCount(d.laboratoryCount()).practicalCount(d.practicalCount())
+                    //     .hoursSolo(d.hoursSolo()).countLecture(d.countLecture())
+                    //     .countLaboratory(d.countLaboratory()).countPractical(d.countPractical())
                     //     .hasExam(d.hasExam()).hasCoursework(d.hasCoursework())
                     //     .hasCourseProject(d.hasCourseProject()).hasDesignAssignment(d.hasDesignAssignment())
                     //     .hasEssay(d.hasEssay()).hasHomeTest(d.hasHomeTest()).hasAudienceTest(d.hasAudienceTest())
                     //     .discipline(d.discipline()).disciplineId(d.disciplineId());
+
                 },
                 empty: function(){
                     self.current.discipline().id(0).semester('')
@@ -145,6 +144,7 @@ $(document).ready(function () {
             self.actions = {
                 show: function(data){
                     var isCurrent = self.current.discipline().id() === data.id();
+                    console.log(isCurrent,data.id(),self.current.discipline().id());
                     if (isCurrent){
                         self.alter.empty();
                         self.mode(state.none);
@@ -158,7 +158,7 @@ $(document).ready(function () {
                         self.mode() === state.create
                             ? self.mode(state.none)
                             : self.mode(state.create);
-                        //self.alter.empty();
+                        self.alter.empty();
                         commonHelper.buildValidationList(self.validation);
                     },
                     update: function(){
