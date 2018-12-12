@@ -83,7 +83,16 @@ class StudyPlanManager
         $this->_unitOfWork->commit();
     }
 
-    public function updateDisciplinePlan(DisciplinePlan $disciplinePlan, $studyPlanId, $disciplineId){
+    public function updateDisciplinePlan(DisciplinePlan $disciplinePlan, $studyPlanId, $disciplineId, $semester){
+        $existingSemesterDisciplinePlan = $this->_unitOfWork->disciplinePlans()
+            ->where("DisciplinePlan.studyplan = $studyPlanId 
+            AND DisciplinePlan.discipline = $disciplineId 
+            AND DisciplinePlan.semester = $semester");
+
+        if (!empty($existingSemesterDisciplinePlan)){
+            throw new Exception("Указанный семестр данной дисциплины  уже содержится в учебном плане!");
+        }
+
         $studyPlan = $this->_unitOfWork->studyPlans()->find($studyPlanId);
         $discipline = $this->_unitOfWork->disciplines()->find($disciplineId);
         $disciplinePlan->setStudyplan($studyPlan);

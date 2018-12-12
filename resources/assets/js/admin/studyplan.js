@@ -119,7 +119,6 @@ $(document).ready(function () {
 
                   ko.mapping.fromJS(d, {}, self.current.discipline);
 
-                    // console.log(self.current);
                     // self.current.discipline().id(d.id()).semester(d.semester())
                     //     .hoursAll(d.hoursAll()).hoursLecture(d.hoursLecture())
                     //     .hoursLaboratory(d.hoursLaboratory()).hoursPractical(d.hoursPractical())
@@ -129,7 +128,6 @@ $(document).ready(function () {
                     //     .hasCourseProject(d.hasCourseProject()).hasDesignAssignment(d.hasDesignAssignment())
                     //     .hasEssay(d.hasEssay()).hasHomeTest(d.hasHomeTest()).hasAudienceTest(d.hasAudienceTest())
                     //     .discipline(d.discipline()).disciplineId(d.disciplineId());
-
                 },
                 empty: function(){
                     self.current.discipline().id(0).semester('')
