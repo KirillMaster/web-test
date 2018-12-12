@@ -63,13 +63,15 @@ class StudyPlanManager
             ->getPlansDisciplinesByStudyplanAndNamePaginated($pageSize, $pageNum, $studyplanId, $name);
     }
 
-    public function createDisciplinePlan(DisciplinePlan $disciplinePlan, $studyPlanId, $disciplineId)
+    public function createDisciplinePlan(DisciplinePlan $disciplinePlan, $studyPlanId, $disciplineId, $semester)
     {
-        $existingDisciplinePlan = $this->_unitOfWork->disciplinePlans()
-            ->where("DisciplinePlan.studyplan = $studyPlanId AND DisciplinePlan.discipline = $disciplineId");
+        $existingSemesterDisciplinePlan = $this->_unitOfWork->disciplinePlans()
+            ->where("DisciplinePlan.studyplan = $studyPlanId 
+            AND DisciplinePlan.discipline = $disciplineId 
+            AND DisciplinePlan.semester = $semester");
 
-        if (!empty($existingDisciplinePlan)){
-            throw new Exception("Указанная дисциплина уже содержится в данном учебном плане!");
+        if (!empty($existingSemesterDisciplinePlan)){
+            throw new Exception("Указанный семестр дисциплины  уже содержится в данном учебном плане!");
         }
 
         $studyPlan = $this->_unitOfWork->studyPlans()->find($studyPlanId);
