@@ -59,8 +59,8 @@
                         <th>Курс.проект</th>
                         <th>РГЗ</th>
                         <th>Реферат</th>
-                        <th>Дом.КР</th>
                         <th>Ауд.КР</th>
+                        <th>Дом.КР</th>
                     </tr>
                     </thead>
 
@@ -114,10 +114,10 @@
                             <span class="info" data-bind="if: hasEssay">&#10004</span>
                         </td>
                         <td>
-                            <span class="info" data-bind="if: hasHomeTest">&#10004</span>
+                            <span class="info" data-bind="if: hasAudienceTest">&#10004</span>
                         </td>
                         <td>
-                            <span class="info" data-bind="if: hasAudienceTest">&#10004</span>
+                            <span class="info" data-bind="if: hasHomeTest">&#10004</span>
                         </td>
                     </tr>
 
@@ -277,7 +277,7 @@
                    event: {focusout: $root.events.focusout, focusin: $root.events.focusin}"/>
     </div>
     <div class="details-column width-15p">
-        <label class="title">Количество лабор. рабoт <span class="required">*</span></label>
+        <label class="title">Количество лабор. работ <span class="required">*</span></label>
         <input id="iCountLab" type="text" validate
                data-bind="value: countLaboratory,
                    validationElement: countLaboratory,
