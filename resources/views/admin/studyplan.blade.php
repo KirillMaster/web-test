@@ -65,11 +65,11 @@
                     </thead>
 
 
-                    <tbody class="items-body" data-bind='foreach: $root.current.disciplines'>
+                    <tbody class="items-body" data-bind='foreach: $root.actions.sortedDiscipline().sort((a,b)=>a.disciplineId() > b.disciplineId())'>
                     <tr class="item" data-bind="click: $root.actions.show">
                         <td>
                             {{--<span class=info data-bind="textI discipline">--}}
-                            <span class="info" data-bind="text: discipline"></span>
+                            <span class="info" data-bind="visible: disciplineVisible, text: discipline"></span>
                         </td>
                         <td>
                             <span class="info" data-bind="text: semester"></span>
@@ -284,46 +284,46 @@
                    event: {focusout: $root.events.focusout, focusin: $root.events.focusin}"/>
     </div>
     <div class="details-row">
-        <div class="details-column width-18p">
+        <div class="details-column wrapper-column-radio width-18p">
             <label class="title">Экзамен</label>
             <span class="radio" data-bind="click: $root.actions.switchExam.on, css: {'radio-important' : hasExam()}">Есть</span>
             <span class="radio" data-bind="click: $root.actions.switchExam.off, css: {'radio-important' : !hasExam()}">Нет</span>
         </div>
-        <div class="details-column width-18p">
+        <div class="details-column wrapper-column-radio width-18p">
             <label class="title">Курсовая работа</label>
             <span class="radio"
                   data-bind="click: $root.actions.switchCoursework.on, css: {'radio-important' : hasCoursework()}">Есть</span>
             <span class="radio"
                   data-bind="click: $root.actions.switchCoursework.off, css: {'radio-important' : !hasCoursework()}">Нет</span>
         </div>
-        <div class="details-column width-18p">
+        <div class="details-column wrapper-column-radio width-18p">
             <label class="title">Курсовой проект</label>
             <span class="radio"
                   data-bind="click: $root.actions.switchCourseProject.on, css: {'radio-important' : hasCourseProject()}">Есть</span>
             <span class="radio"
                   data-bind="click: $root.actions.switchCourseProject.off, css: {'radio-important' : !hasCourseProject()}">Нет</span>
         </div>
-        <div class="details-column width-18p">
-            <label class="title">РГЗ</label>
+        <div class="details-column wrapper-column-radio width-18p">
+            <label class="title">&nbsp;&nbsp;&nbsp;&nbsp;РГЗ&nbsp;&nbsp;&nbsp;</label>
             <span class="radio"
                   data-bind="click: $root.actions.switchDesignAssignment.on, css: {'radio-important' : hasDesignAssignment()}">Есть</span>
             <span class="radio"
                   data-bind="click: $root.actions.switchDesignAssignment.off, css: {'radio-important' : !hasDesignAssignment()}">Нет</span>
         </div>
-        <div class="details-column width-18p">
+        <div class="details-column wrapper-column-radio width-18p">
             <label class="title">Реферат</label>
             <span class="radio" data-bind="click: $root.actions.switchEssay.on, css: {'radio-important' : hasEssay()}">Есть</span>
             <span class="radio"
                   data-bind="click: $root.actions.switchEssay.off, css: {'radio-important' : !hasEssay()}">Нет</span>
         </div>
-        <div class="details-column width-18p">
+        <div class="details-column wrapper-column-radio width-18p">
             <label class="title">Аудит. КР</label>
             <span class="radio"
                   data-bind="click: $root.actions.switchAudienceTest.on, css: {'radio-important' : hasAudienceTest()}">Есть</span>
             <span class="radio"
                   data-bind="click: $root.actions.switchAudienceTest.off, css: {'radio-important' : !hasAudienceTest()}">Нет</span>
         </div>
-        <div class="details-column width-18p">
+        <div class="details-column wrapper-column-radio width-18p">
             <label class="title">Домаш. КР</label>
             <span class="radio"
                   data-bind="click: $root.actions.switchHomeTest.on, css: {'radio-important' : hasHomeTest()}">Есть</span>

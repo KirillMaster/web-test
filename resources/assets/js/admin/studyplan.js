@@ -10,16 +10,16 @@ $(document).ready(function () {
 
 
             self.initial = {
-                unUrlPlanId: function(){
+                unUrlPlanId: function () {
                     var url = window.location.href;
-                    var id = +url.substr(url.lastIndexOf('/')+1);
-                    if ($.isNumeric(id)){
+                    var id = +url.substr(url.lastIndexOf('/') + 1);
+                    if ($.isNumeric(id)) {
                         self.current.planId(id);
                         self.get.disciplines();
                         return;
                     }
                     self.errors.show('Учебный план не определен');
-                    setTimeout(function(){
+                    setTimeout(function () {
                         window.location.href = '/admin/main';
                     }, 5000);
                 },
@@ -30,7 +30,9 @@ $(document).ready(function () {
             };
             self.filter = {
                 discipline: ko.observable(''),
-                clear: function(){
+                semester: ko.observable(''),
+                clear: function () {
+                    self.filter.discipline('');
                     self.filter.discipline('');
                 }
             };
@@ -100,12 +102,13 @@ $(document).ready(function () {
                     hasHomeTest: ko.observable(true),
                     hasAudienceTest: ko.observable(true),
                     discipline: ko.observable(''),
-                    disciplineId: ko.observable(0)
+                    disciplineId: ko.observable(0),
+
                 }),
                 planId: ko.observable()
             };
             self.alter = {
-                stringify: function(){
+                stringify: function () {
                     var discipline = ko.mapping.toJS(self.current.discipline);
                     if (self.mode() === state.create) delete discipline.id;
                     return JSON.stringify({
@@ -114,10 +117,10 @@ $(document).ready(function () {
                         disciplineId: self.current.discipline().disciplineId()
                     })
                 },
-                fill: function(d){
+                fill: function (d) {
                     // console.log(d);
 
-                  ko.mapping.fromJS(d, {}, self.current.discipline);
+                    ko.mapping.fromJS(d, {}, self.current.discipline);
 
                     // self.current.discipline().id(d.id()).semester(d.semester())
                     //     .hoursAll(d.hoursAll()).hoursLecture(d.hoursLecture())
@@ -129,7 +132,7 @@ $(document).ready(function () {
                     //     .hasEssay(d.hasEssay()).hasHomeTest(d.hasHomeTest()).hasAudienceTest(d.hasAudienceTest())
                     //     .discipline(d.discipline()).disciplineId(d.disciplineId());
                 },
-                empty: function(){
+                empty: function () {
                     self.current.discipline().id(0).semester('')
                         .hoursAll('').hoursLecture('').hoursLaboratory('')
                         .hoursPractical('').hoursSolo('').countLecture('')
@@ -139,11 +142,19 @@ $(document).ready(function () {
                         .hasAudienceTest(true).discipline('').disciplineId(0);
                 }
             };
+            // self.current.hasSemester = {
+            //     showItem: function (index) {
+            //         if (index == 0)
+            //             return true;
+            //
+            //         return self.current.disciplines[index - 1].semester != self.current.disciplines[index].semester;
+            //     }
+            // };
             self.actions = {
-                show: function(data){
+                show: function (data) {
                     var isCurrent = self.current.discipline().id() === data.id();
-                    console.log(isCurrent,data.id(),self.current.discipline().id());
-                    if (isCurrent){
+                    console.log(isCurrent, data.id(), self.current.discipline().id());
+                    if (isCurrent) {
                         self.alter.empty();
                         self.mode(state.none);
                         return;
@@ -152,108 +163,121 @@ $(document).ready(function () {
                     self.mode(state.info);
                 },
                 start: {
-                    create: function(){
+                    create: function () {
                         self.mode() === state.create
                             ? self.mode(state.none)
                             : self.mode(state.create);
                         self.alter.empty();
                         commonHelper.buildValidationList(self.validation);
                     },
-                    update: function(){
+                    update: function () {
                         self.mode(state.update);
                         commonHelper.buildValidationList(self.validation);
                     },
-                    remove: function(){
+                    remove: function () {
                         self.mode(state.remove);
                         commonHelper.modal.open('#remove-discipline-plan-modal');
                     }
                 },
                 end: {
-                    update: function(){
+                    update: function () {
                         self.current.discipline.isValid()
                             ? self.post.discipline()
                             : self.validation[$('[accept-validation]').attr('id')].open();
                     },
-                    remove: function(){
+                    remove: function () {
                         self.post.removal();
                     }
                 },
-                cancel: function(){
-                    if (self.mode() === state.create){
+                cancel: function () {
+                    if (self.mode() === state.create) {
                         self.alter.empty();
                         self.mode(state.none);
                     }
                     self.mode(state.info);
                 },
                 switchExam: {
-                    on: function(data){
+                    on: function (data) {
                         data.hasExam(true);
                     },
-                    off: function(data){
+                    off: function (data) {
                         data.hasExam(false);
                     }
                 },
                 switchCoursework: {
-                    on: function(data){
+                    on: function (data) {
                         data.hasCoursework(true);
                     },
-                    off: function(data){
+                    off: function (data) {
                         data.hasCoursework(false);
                     }
                 },
                 switchCourseProject: {
-                    on: function(data){
+                    on: function (data) {
                         data.hasCourseProject(true);
                     },
-                    off: function(data){
+                    off: function (data) {
                         data.hasCourseProject(false);
                     }
                 },
                 switchDesignAssignment: {
-                    on: function(data){
+                    on: function (data) {
                         data.hasDesignAssignment(true);
                     },
-                    off: function(data){
+                    off: function (data) {
                         data.hasDesignAssignment(false);
                     }
                 },
                 switchEssay: {
-                    on: function(data){
+                    on: function (data) {
                         data.hasEssay(true);
                     },
-                    off: function(data){
+                    off: function (data) {
                         data.hasEssay(false);
                     }
                 },
                 switchHomeTest: {
-                    on: function(data){
+                    on: function (data) {
                         data.hasHomeTest(true);
                     },
-                    off: function(data){
+                    off: function (data) {
                         data.hasHomeTest(false);
                     }
                 },
                 switchAudienceTest: {
-                    on: function(data){
+                    on: function (data) {
                         data.hasAudienceTest(true);
                     },
-                    off: function(data){
+                    off: function (data) {
                         data.hasAudienceTest(false);
                     }
                 },
+                sortedDiscipline : function () {
+                    let oldDisciplince = ko.mapping.toJS(self.current.disciplines());
+                    let disciplines = [];
+                    oldDisciplince.forEach(d => {
+                        if (disciplines.find(t => t.disciplineId === d.disciplineId))
+                            d.disciplineVisible = false;
+                        else d.disciplineVisible = true;
+
+                        disciplines.push(d);
+                    });
+                    console.log(disciplines);
+                    return ko.mapping.fromJS(disciplines);
+                },
             };
             self.get = {
-                fullList: function(){
+                fullList: function () {
                     var requestOptions = {
                         url: '/api/disciplines/',
                         errors: self.errors,
-                        successCallback: function(data){
+                        successCallback: function (data) {
                             self.initial.disciplines(data());
                         }
                     };
                     $ajaxget(requestOptions);
                 },
-                disciplines: function(){
+                disciplines: function () {
                     var name = self.filter.discipline() ? '&name=' + self.filter.discipline() : '';
                     var url = '/api/plan/discipline/show' +
                         '?studyplan=' + self.current.planId() + name;
@@ -262,7 +286,7 @@ $(document).ready(function () {
                         url: url,
                         errors: self.errors,
                         data: null,
-                        successCallback: function(data){
+                        successCallback: function (data) {
                             self.current.disciplines(data.data());
                         }
                     };
@@ -270,12 +294,12 @@ $(document).ready(function () {
                 }
             };
             self.post = {
-                discipline: function(){
+                discipline: function () {
                     var requestOptions = {
                         url: self.mode() === state.create ? '/api/plan/discipline/create' : '/api/plan/discipline/update',
                         data: self.alter.stringify(),
                         errors: self.errors,
-                        successCallback: function(){
+                        successCallback: function () {
                             self.mode(state.none);
                             self.alter.empty();
                             self.initial.selection(null);
@@ -284,13 +308,13 @@ $(document).ready(function () {
                     };
                     $ajaxpost(requestOptions);
                 },
-                removal: function(){
+                removal: function () {
                     var url = '/api/plan/discipline/delete/' + self.current.discipline().id();
                     var requestOptions = {
                         url: url,
                         data: null,
                         errors: self.errors,
-                        successCallback: function(){
+                        successCallback: function () {
                             self.alter.empty();
                             self.mode(state.none);
                             self.get.disciplines();
@@ -305,9 +329,8 @@ $(document).ready(function () {
             self.get.fullList();
 
 
-
-            self.initial.selection.subscribe(function(value){
-                if (value){
+            self.initial.selection.subscribe(function (value) {
+                if (value) {
                     self.current.discipline().disciplineId(value.id());
                     self.current.discipline().discipline(value.name());
                     return;
@@ -315,7 +338,7 @@ $(document).ready(function () {
                 self.current.discipline().disciplineId(0);
                 self.current.discipline().discipline('');
             });
-            self.filter.discipline.subscribe(function(){
+            self.filter.discipline.subscribe(function () {
                 self.mode(state.none);
                 self.get.disciplines();
             });
