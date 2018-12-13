@@ -81,10 +81,10 @@
                             <span class="info" data-bind="text: hoursLecture"></span>
                         </td>
                         <td>
-                            <span class="info" data-bind="text: hoursLaboratory"></span>
+                            <span class="info" data-bind="text: hoursPractical"></span>
                         </td>
                         <td>
-                            <span class="info" data-bind="text: hoursPractical"></span>
+                            <span class="info" data-bind="text: hoursLaboratory"></span>
                         </td>
                         <td>
                             <span class="info" data-bind="text: hoursSolo"></span>
