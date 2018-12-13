@@ -51,8 +51,8 @@
                         <th>Самост. изучения</th>
 
                         <th>Лекций</th>
-                        <th>Лабор. занятий</th>
                         <th>Практ. занятий</th>
+                        <th>Лабор. работ</th>
 
                         <th>Экзамен</th>
                         <th>Курс.работа</th>
@@ -93,10 +93,10 @@
                             <span class="info" data-bind="text: countLecture"></span>
                         </td>
                         <td>
-                            <span class="info" data-bind="text: countLaboratory"></span>
+                            <span class="info" data-bind="text: countPractical"></span>
                         </td>
                         <td>
-                            <span class="info" data-bind="text: countPractical"></span>
+                            <span class="info" data-bind="text: countLaboratory"></span>
                         </td>
                         <td>
                             <span class="info" data-bind="if: hasExam">&#10004;</span>
@@ -177,10 +177,10 @@
             <span class="info" data-bind="text: countLecture"></span>
         </td>
         <td><label class="title">Количество практич. занятий</label>
-            <span class="info" data-bind="text: countLaboratory"></span>
+            <span class="info" data-bind="text: countPractical"></span>
         </td>
         <td><label class="title">Количество лаб. работ</label>
-            <span class="info" data-bind="text: countPractical"></span>
+            <span class="info" data-bind="text: countLaboratory"></span>
         </td>
         <td><label class="title">Дополнительные условия сдачи</label>
             <span class="info coloredin-patronus" data-bind="text: hasExam() ? 'Экзамен ' : ''"></span>
