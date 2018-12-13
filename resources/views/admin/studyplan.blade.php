@@ -277,7 +277,7 @@
                    event: {focusout: $root.events.focusout, focusin: $root.events.focusin}"/>
     </div>
     <div class="details-column width-15p">
-        <label class="title">Количество лабор. работ <span class="required">*</span></label>
+        <label class="title">Количество лабор. рабoт <span class="required">*</span></label>
         <input id="iCountLab" type="text" validate
                data-bind="value: countLaboratory,
                    validationElement: countLaboratory,
