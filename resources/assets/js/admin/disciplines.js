@@ -265,10 +265,17 @@ $(document).ready(function(){
                 },
                 themes: function(){
                     var url = '/api/disciplines/' + self.current.discipline().id() +'/themes';
+
                     $.get(url, function(response){
-                        var result = ko.mapping.fromJSON(response);
-                        if (result.Success()){
-                            self.current.themes(result.Data());
+                        var result = JSON.parse(response);
+                        for (var i = 0; i < result.Data.length; i++){
+                            var time = result.Data[i].totalTimeInSeconds;
+                            var minutes = formatTime(Math.floor(time / 60));
+                            var seconds = formatTime(time % 60);
+                            result.Data[i].totalTimeInSeconds = minutes + ":" + seconds;
+                        }
+                        if (result.Success){
+                            self.current.themes(ko.mapping.fromJS(result.Data)());
                             return;
                         }
                         self.errors.show(result.Message());

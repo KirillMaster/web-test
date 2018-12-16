@@ -290,6 +290,7 @@ var menu = {
         students: 'students',
         disciplines: 'disciplines',
         tests: 'tests',
+        performance: 'performance',
         results: 'results',
         materials: 'materials'
     },
@@ -299,6 +300,22 @@ var menu = {
         stats: 'statistics',
         faq: 'faq',
         materials: 'materials'
+    }
+};
+
+var formatTime = function(time){
+    return time < 10 ? "0" + time : time;
+};
+
+var handleKnockoutObject = function (data, handler) {
+    data = ko.mapping.toJS(data);
+    handler(data);
+    return ko.mapping.fromJS(data);
+};
+
+var handleArray = function (array, handler) {
+    for (var i = 0; i < array.length; i++) {
+        handler(array[i], i, array);
     }
 };
 

@@ -1,38 +1,37 @@
-/node_modules
-/public/storage
-/vendor
-/.idea
-/app/temp_cache
+.env
+.DS_Store
+
+composer.phar
 Homestead.json
 Homestead.yaml
-.env
 
-/bootstrap/compiled.php
+/.idea
+
+/node_modules
 /vendor
 
+/app/temp_cache
+
+/bootstrap/compiled.php
 
 /build/logs
 /build/coverage
 
-
-/app/tests/_log
-
-
-composer.phar
-
-
-.DS_Store
-
-
-/.idea
 /_ide_helper.php
 
-
+/app/tests/_log
 /app/config/packages
+
+/public/storage
 /public/packages
+/public/js/min
+/public/css/admin.*
+/public/css/auth.*
+/public/css/common.*
+/public/css/site.*
+/public/css/test.*
 
+/redis-stable
 
-/node_modules
-
-
-.env
+redis-stable.tar.gz
+wsl

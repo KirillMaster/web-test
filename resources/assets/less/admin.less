@@ -160,6 +160,9 @@ button{
 .item.current > .fa{
   color: @white;
 }
+.item.grid{
+  padding: 11px 0 12px 10px;
+}
 
 .items{
   .result{
@@ -524,6 +527,11 @@ table.werewolf.materials{
   &:hover{
     color: @white;
     background: @patronus;
+  }
+  &:disabled{
+    background: @patronus-shade;
+    color: @filch;
+    cursor: default;
   }
 }
 .filter.theme{
@@ -949,7 +957,7 @@ button.add-section{
 
   .popup{
     &-delete{
-      height: 80px;
+      height: 100px;
       div:last-child{
         float: right;
         button:first-child{

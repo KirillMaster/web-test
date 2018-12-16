@@ -1,7 +1,5 @@
 const elixir = require('laravel-elixir');
 
-require('laravel-elixir-vue');
-
 /*
  |--------------------------------------------------------------------------
  | Elixir Asset Management
@@ -25,7 +23,6 @@ elixir(function(mix){
 
 elixir(function(mix){
     mix.scripts([
-
         "lib/es5-shim.js",
         "lib/polyfills.js",
         "lib/jquery-3.1.1.js",
@@ -172,6 +169,11 @@ elixir(function(mix){
     mix.scripts([
         "admin/groups.js"
     ], "public/js/min/manager-groups.js");
+});
+elixir(function(mix){
+    mix.scripts([
+        "admin/performance.js"
+    ], "public/js/min/manager-performance.js");
 });
 elixir(function(mix){
     mix.scripts([

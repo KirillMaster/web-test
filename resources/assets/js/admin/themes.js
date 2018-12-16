@@ -81,6 +81,7 @@ $(document).ready(function(){
                 code: ko.observable(),
                 answerIdCounter: ko.observable(0)
             };
+
             self.filter = {
                 name: ko.observable(),
                 type: ko.observable(),
@@ -367,7 +368,7 @@ $(document).ready(function(){
                             self.get.questionWithAnswers(data.id());
                             self.mode(state.update);
                             commonHelper.buildValidationList(self.validation);
-                            commonHelper.scroll('#question-form');
+                            window.scroll($("#question-form").position());
                         },
                         remove: function(data){
                             self.current.question().id(data.id());
@@ -404,7 +405,8 @@ $(document).ready(function(){
                         self.current.answers.push({
                             id: ko.observable(id),
                             text: ko.observable(text),
-                            isRight: ko.observable(isRight)
+                            isRight: ko.observable(isRight),
+                            isEdit: ko.observable(false)
                         });
                         self.current.answerIdCounter(++id);
                         self.alter.empty.answer();
@@ -413,6 +415,9 @@ $(document).ready(function(){
                         self.current.answers.remove(function(item){
                             return item.id() === data.id();
                         });
+                    },
+                    edit: function (data) {
+                        data.isEdit(!data.isEdit());
                     }
                 },
                 image: {
@@ -575,13 +580,21 @@ $(document).ready(function(){
                     var url = '/api/questions/show' + theme +
                         page + pageSize + name + type + complexity;
 
-                    $ajaxget({
-                        url: url,
-                        errors: self.errors,
-                        successCallback: function(data){
-                            self.current.questions(data.data());
-                            self.pagination.itemsCount(data.count());
+                    $.get(url, function(response){
+                        var result = JSON.parse(response);
+                        var data = result.Data.data;
+                        for (var i = 0; i < data.length; i++){
+                            var time = data[i].time;
+                            var minutes = formatTime(Math.floor(time / 60));
+                            var seconds = formatTime(time % 60);
+                            data[i].time = minutes + ":" + seconds;
                         }
+                        if (result.Success){
+                            self.current.questions(ko.mapping.fromJS(data)());
+                            self.pagination.itemsCount(ko.mapping.fromJS(result.Data.count)());
+                            return;
+                        }
+                        self.errors.show(result.Message());
                     });
                 },
                 theme: function(){
@@ -607,6 +620,11 @@ $(document).ready(function(){
                         url: '/api/questions/' + id,
                         errors: self.errors,
                         successCallback: function(data){
+                            data = handleKnockoutObject(data, function (data) {
+                                handleArray(data.answers, function (answer) {
+                                    answer.isEdit = false;
+                                })
+                            });
                             self.alter.fill.question(data.question, data.answers);
                             data.question.type() === types.question.code.id
                                 ? self.get.code() : null;

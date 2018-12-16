@@ -13,6 +13,7 @@ class QuestionViewModel implements JsonSerializable
         $this->_answers = $answers;
         $this->_program = $program;
         $this->_paramSets = $paramSets;
+
     }
 
     function jsonSerialize()
