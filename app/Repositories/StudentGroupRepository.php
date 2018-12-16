@@ -12,8 +12,12 @@ class StudentGroupRepository extends BaseRepository
         parent::__construct($em, StudentGroup::class);
     }
     
-    public function getUserGroup($userId){
+    public function getUserGroup($userId) {
         return $this->repo->findOneBy(['student' => $userId]);
+    }
+
+    public function getByStudentId($studentId) {
+        return $this->repo->findOneBy(["student" => $studentId]);
     }
 
     public function clearUserGroup($userId){

@@ -2,17 +2,23 @@
 
 namespace Repositories;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Query\Expr\Join;
 use Group;
 use PaginationResult;
 use StudentGroup;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Query\Expr\Join;
 
 class GroupRepository extends BaseRepository
 {
     public function __construct(EntityManager $em)
     {
         parent::__construct($em, Group::class);
+    }
+
+    public function getByYear($year) {
+        return $this->repo->findBy([
+            "year" => $year
+        ]);
     }
 
     public function getGroupsByProfile($profileId){
@@ -34,6 +40,14 @@ class GroupRepository extends BaseRepository
         $query->execute();
     }
 
+    public function findBy($year, $course, $prefix, $number) {
+        return $this->repo->findOneBy([
+            "year" => $year,
+            "course" => $course,
+            "prefix" => $prefix,
+            "number" => $number
+        ]);
+    }
 
     public function getByNameAndProfilePaginated($pageSize, $pageNum, $profileId = null, $name = null){
         $qb = $this->repo->createQueryBuilder('g');
@@ -61,22 +75,4 @@ class GroupRepository extends BaseRepository
 
         return new PaginationResult($data, $count);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 }

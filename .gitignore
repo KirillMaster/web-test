@@ -30,3 +30,8 @@ Homestead.yaml
 /public/css/common.*
 /public/css/site.*
 /public/css/test.*
+
+/redis-stable
+
+redis-stable.tar.gz
+wsl

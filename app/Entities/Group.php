@@ -1,16 +1,12 @@
 <?php
 
-
-
-use Doctrine\ORM\Mapping as ORM;
-
 /**
  * Group
  *
  * @ORM\Table(name="`group`", indexes={@ORM\Index(name="group_studyplan_id_foreign", columns={"studyplan_id"})})
  * @ORM\Entity
  */
-class Group  extends BaseEntity implements JsonSerializable
+class Group extends BaseEntity implements JsonSerializable
 {
     /**
      * @var string
@@ -25,6 +21,13 @@ class Group  extends BaseEntity implements JsonSerializable
      * @ORM\Column(name="course", type="smallint", nullable=true)
      */
     protected $course;
+
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="year", type="integer", nullable=true)
+     */
+    protected $year;
 
     /**
      * @var boolean
@@ -221,6 +224,24 @@ class Group  extends BaseEntity implements JsonSerializable
         return $this->studyplan;
     }
 
+    /**
+     * Get year.
+     * @return integer
+     */
+    public function getYear() {
+        return $this->year;
+    }
+
+    /**
+     * Set year.
+     * @param integer $year
+     * @return Group
+     */
+    public function setYear($year) {
+        $this->year = $year;
+        return $this;
+    }
+
     public function jsonSerialize()
     {
         return array(
@@ -231,7 +252,8 @@ class Group  extends BaseEntity implements JsonSerializable
             'isFullTime' => $this->isFulltime,
             'course' => $this->course,
             'studyplan' => $this->studyplan->getName(),
-            'studyplanId' => $this->studyplan->getId()
+            'studyplanId' => $this->studyplan->getId(),
+            'year' => $this->year
         );
     }
 }
