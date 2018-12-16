@@ -432,6 +432,13 @@ Route::group(['prefix' => 'api'], function() {
         Route::post('createGivenAnswer', 'TestResultController@createGivenAnswer')
             ->middleware('checkIP');
     });
+});
 
-
+Route::group(["prefix" => "admin"], function () {
+    Route::group(["prefix" => "students"], function () {
+        Route::group(["prefix" => "transfer"], function () {
+            Route::post("/next", "StudentApiController@transferToNextCourse")
+                ->middleware('checkRole:'.UserRole::Admin.'|'.UserRole::Lecturer);
+        });
+    });
 });
